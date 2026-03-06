@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1 admin, 3 organizers, 10 customers
-        $admins = User::factory()->admin()->count(1)->create();
+        // 2 admins, 3 organizers, 10 customers
+        $admins = User::factory()->admin()->count(2)->create();
         $organizers = User::factory()->organizer()->count(3)->create();
         $customers = User::factory()->customer()->count(10)->create();
 
