@@ -1,59 +1,208 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Event Booking System API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 12 REST API for managing events, tickets, and bookings with role-based access control and payment processing.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Framework**: Laravel 12
+- **Authentication**: Laravel Sanctum
+- **Database**: SQLite (development) / MySQL (production)
+- **Testing**: PHPUnit 11
+- **Code Formatting**: Laravel Pint
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.4+
+- Composer
+- Laravel Herd (or manual setup)
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Clone & Install Dependencies
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+cd C:\Users\luisj\Herd\backend_test
+composer install
+```
 
-## Laravel Sponsors
+### 2. Environment Setup
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-### Premium Partners
+### 3. Database Setup
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+# Run migrations and seed sample data
+php artisan migrate:fresh --seed
 
-## Contributing
+# Or run migrations only (without seeders)
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Seed Sample Data (Optional)
 
-## Code of Conduct
+If you only ran migrations, populate the database with test data:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan db:seed
+```
 
-## Security Vulnerabilities
+The seeder creates:
+- 1 admin user
+- 3 organizer users
+- 10 customer users
+- 5 events
+- 15 ticket types
+- 20 sample bookings
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Run the Application
+
+The application is automatically served by Laravel Herd at:
+```
+https://backend-test.test
+```
+
+Or use the API directly:
+```
+https://backend-test.test/api
+```
+
+## Running Tests
+
+Run all tests:
+```bash
+php artisan test --compact
+```
+
+Run specific test suite:
+```bash
+php artisan test --filter AuthTest      # Authentication tests
+php artisan test --filter BookingTest   # Booking tests
+php artisan test --testsuite=Unit      # Unit tests only
+```
+
+Test results: **17/17 passing**
+
+## API Documentation
+
+See [ENDPOINTS.md](./ENDPOINTS.md) for complete API endpoint documentation including:
+- Authentication (register, login, logout)
+- User endpoints (me)
+- Events (CRUD + filters)
+- Tickets (CRUD)
+- Bookings (CRUD)
+- Payments (process, get details)
+
+Each endpoint includes:
+- Request/response examples
+- Query parameters
+- Authentication requirements
+- Error codes
+
+## User Roles
+
+The system has three user roles with different permissions:
+
+### Admin
+- Full access to all events and tickets
+- Can manage any event or ticket
+- Can view all bookings and payments
+
+### Organizer
+- Create and manage their own events
+- Create and manage tickets for their events
+- Cannot view other organizers' events
+- Cannot make bookings (customers only)
+
+### Customer
+- View all public events and tickets
+- Create and manage their own bookings
+- Process payments for bookings
+- Cancel their own bookings
+
+## Business Logic
+
+### Booking Flow
+
+1. **Customer views events** → GET `/api/events`
+2. **Customer creates booking** → POST `/api/tickets/{id}/bookings`
+   - Status: `pending`
+   - Middleware prevents double-booking same ticket
+3. **Customer pays** → POST `/api/bookings/{id}/payment`
+   - If successful: status changes to `confirmed`
+   - Payment service simulates 80% success rate
+4. **Customer cancels (optional)** → PUT `/api/bookings/{id}/cancel`
+   - Status changes to `cancelled`
+
+### Stock Management
+
+- Each ticket has a `quantity` (total available)
+- When creating a booking, system checks available stock
+- Only `pending` and `confirmed` bookings count against stock
+- Cancelled bookings free up stock
+
+### Caching
+
+- Event listings are cached for 5 minutes
+- Cache is invalidated when events/tickets are created, updated, or deleted
+
+## Project Structure
+
+```
+app/
+├── Http/
+│   ├── Controllers/       # API endpoints logic
+│   ├── Middleware/        # Auth & role middleware
+│   └── Resources/         # JSON response formatting
+├── Models/                # Database models & relationships
+└── Services/              # Business logic (e.g., PaymentService)
+
+database/
+├── migrations/            # Database schema
+├── factories/             # Test data factories
+└── seeders/               # Sample data seeders
+
+routes/
+└── api.php                # API route definitions
+
+tests/
+├── Feature/               # HTTP endpoint tests
+└── Unit/                  # Unit tests
+```
+
+## Development Tips
+
+### Clear Cache
+```bash
+php artisan cache:clear
+```
+
+### Reset Database
+```bash
+php artisan migrate:fresh --seed
+```
+
+### Run Code Formatter
+```bash
+php artisan pint
+```
+
+### Access Database CLI
+```bash
+php artisan tinker
+```
+
+## Next Steps (Section 5)
+
+- Email notifications for booking confirmations
+- Queue-based payment processing
+- Advanced caching strategies
+- API rate limiting
+- Webhook support for external services
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT

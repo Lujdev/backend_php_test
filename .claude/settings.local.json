@@ -1,0 +1,10 @@
+{
+  "disabledMcpjsonServers": [
+    "laravel-boost"
+  ],
+  "permissions": {
+    "allow": [
+      "Bash(\"C:\\\\Users\\\\luisj\\\\.config\\\\herd\\\\bin\\\\php.bat\" artisan:*)"
+    ]
+  }
+}
