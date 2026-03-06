@@ -1,0 +1,872 @@
+{
+  "info": {
+    "_postman_id": "event-booking-system-v1",
+    "name": "Event Booking System API",
+    "description": "Complete API collection for the Event Booking System - PHP Laravel Developer Assessment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://backend-test.test/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"phone\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": ["{{base_url}}"],
+              "path": ["register"]
+            },
+            "description": "Register a new user account. Role defaults to 'customer'."
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Authenticate with email and password. Token is auto-saved to collection variable."
+          },
+          "response": []
+        },
+        {
+          "name": "Login as Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Admin token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Login as seeded admin user."
+          },
+          "response": []
+        },
+        {
+          "name": "Login as Organizer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Organizer token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"organizer1@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Login as seeded organizer user."
+          },
+          "response": []
+        },
+        {
+          "name": "Login as Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Customer token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer1@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            },
+            "description": "Login as seeded customer user."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User (me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me",
+              "host": ["{{base_url}}"],
+              "path": ["me"]
+            },
+            "description": "Get the authenticated user's profile information."
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.collectionVariables.set('token', '');",
+                  "    console.log('Token cleared');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/logout",
+              "host": ["{{base_url}}"],
+              "path": ["logout"]
+            },
+            "description": "Invalidate the current API token. Token is auto-cleared from collection variable."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "List Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events",
+              "host": ["{{base_url}}"],
+              "path": ["events"],
+              "query": [
+                { "key": "date", "value": "2026-06-15", "disabled": true, "description": "Filter by date (YYYY-MM-DD)" },
+                { "key": "search", "value": "concert", "disabled": true, "description": "Search by title" },
+                { "key": "location", "value": "New York", "disabled": true, "description": "Filter by location" },
+                { "key": "page", "value": "1", "disabled": true, "description": "Page number" }
+              ]
+            },
+            "description": "List all events with optional filters. Paginated (10 per page). Public endpoint."
+          },
+          "response": []
+        },
+        {
+          "name": "List Events - Filter by Date",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events?date=2026-06-15",
+              "host": ["{{base_url}}"],
+              "path": ["events"],
+              "query": [
+                { "key": "date", "value": "2026-06-15" }
+              ]
+            },
+            "description": "Filter events by exact date."
+          },
+          "response": []
+        },
+        {
+          "name": "List Events - Search by Title",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events?search=concert",
+              "host": ["{{base_url}}"],
+              "path": ["events"],
+              "query": [
+                { "key": "search", "value": "concert" }
+              ]
+            },
+            "description": "Search events by title keyword."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Event",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events/1",
+              "host": ["{{base_url}}"],
+              "path": ["events", "1"]
+            },
+            "description": "Get detailed information about a specific event including all ticket types."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Event",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('event_id', res.id);",
+                  "    console.log('Event ID saved:', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Summer Concert 2026\",\n  \"description\": \"Annual summer music festival\",\n  \"date\": \"2026-06-15 18:00:00\",\n  \"location\": \"Central Park\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events",
+              "host": ["{{base_url}}"],
+              "path": ["events"]
+            },
+            "description": "Create a new event. Requires role: admin or organizer."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Summer Concert 2026 - Updated\",\n  \"date\": \"2026-06-20 19:00:00\",\n  \"location\": \"Hyde Park\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events/1",
+              "host": ["{{base_url}}"],
+              "path": ["events", "1"]
+            },
+            "description": "Update an event. Organizers can only update their own events. Admins can update any."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events/1",
+              "host": ["{{base_url}}"],
+              "path": ["events", "1"]
+            },
+            "description": "Delete an event and all associated tickets and bookings. Requires role: admin or organizer (owner)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "Create Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('ticket_id', res.id);",
+                  "    console.log('Ticket ID saved:', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"VIP\",\n  \"price\": 99.99,\n  \"quantity\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events/1/tickets",
+              "host": ["{{base_url}}"],
+              "path": ["events", "1", "tickets"]
+            },
+            "description": "Create a new ticket type for an event. Requires role: admin or organizer."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Ticket - Standard",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"Standard\",\n  \"price\": 49.99,\n  \"quantity\": 200\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events/1/tickets",
+              "host": ["{{base_url}}"],
+              "path": ["events", "1", "tickets"]
+            },
+            "description": "Create a Standard ticket type."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Ticket",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 109.99,\n  \"quantity\": 75\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tickets/1",
+              "host": ["{{base_url}}"],
+              "path": ["tickets", "1"]
+            },
+            "description": "Update ticket type, price, or quantity. Requires role: admin or organizer (owner)."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Ticket",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tickets/1",
+              "host": ["{{base_url}}"],
+              "path": ["tickets", "1"]
+            },
+            "description": "Delete a ticket type. This cancels all pending bookings for this ticket."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('booking_id', res.id);",
+                  "    console.log('Booking ID saved:', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tickets/1/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["tickets", "1", "bookings"]
+            },
+            "description": "Create a new booking for a ticket. Requires role: customer. Middleware prevents double-booking."
+          },
+          "response": []
+        },
+        {
+          "name": "List My Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true }
+              ]
+            },
+            "description": "List all bookings for the authenticated customer. Paginated (10 per page)."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/bookings/1/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "1", "cancel"]
+            },
+            "description": "Cancel a booking. Requires role: customer. Can only cancel own bookings."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Process Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const res = pm.response.json();",
+                  "    pm.collectionVariables.set('payment_id', res.id);",
+                  "    console.log('Payment ID saved:', res.id);",
+                  "    console.log('Payment status:', res.status);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings/1/payment",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "1", "payment"]
+            },
+            "description": "Process payment for a pending booking. On success, booking status changes to 'confirmed' and a notification is sent."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/payments/1",
+              "host": ["{{base_url}}"],
+              "path": ["payments", "1"]
+            },
+            "description": "Get detailed information about a payment."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔁 Full Flow (Happy Path)",
+      "item": [
+        {
+          "name": "Step 1 — Login as Organizer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "pm.collectionVariables.set('token', res.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"organizer1@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Step 2 — Create Event",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "pm.collectionVariables.set('event_id', res.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Full Flow Test Event\",\n  \"description\": \"Testing the full booking flow\",\n  \"date\": \"2027-01-15 18:00:00\",\n  \"location\": \"Test Venue\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events",
+              "host": ["{{base_url}}"],
+              "path": ["events"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Step 3 — Create Ticket for Event",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "pm.collectionVariables.set('ticket_id', res.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"General\",\n  \"price\": 25.00,\n  \"quantity\": 100\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events/{{event_id}}/tickets",
+              "host": ["{{base_url}}"],
+              "path": ["events", "{{event_id}}", "tickets"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Step 4 — Login as Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "pm.collectionVariables.set('token', res.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer1@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Step 5 — Book Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "pm.collectionVariables.set('booking_id', res.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tickets/{{ticket_id}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["tickets", "{{ticket_id}}", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Step 6 — Process Payment",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "pm.collectionVariables.set('payment_id', res.id);",
+                  "console.log('Payment result:', res.status);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings/{{booking_id}}/payment",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "{{booking_id}}", "payment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Step 7 — View My Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
